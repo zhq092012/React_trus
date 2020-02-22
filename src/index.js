@@ -1,12 +1,30 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './App';
-import * as serviceWorker from './serviceWorker';
+import React from "react";
+import ReactDOM from "react-dom";
+// const app=<h1>webcome to react</h1>
+// const createApp = props => {
+//   return (
+//     <div>
+//       {/* 只要在jsx里插入js代码，就加一层{} */}
+//       <h1>webcome to {props.title}</h1>
+//       <p>优秀的{props.title}</p>
+//     </div>
+//   );
+// };
+// const app = createApp({
+//   title: "react 16.8"
+// });
 
-ReactDOM.render(<App />, document.getElementById('root'));
-
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister();
+//创建组件的第一种方式就是使用=>函数，名字要大写
+const App = props => {
+  return (
+    <div>
+      {/* 只要在jsx里插入js代码，就加一层{} */}
+      <h1>webcome to {props.title}</h1>
+      <p>优秀的{props.title}</p>
+    </div>
+  );
+};
+ReactDOM.render(
+  <App title="react 1901"></App>,
+  document.querySelector("#root")
+);
