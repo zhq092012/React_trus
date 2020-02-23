@@ -1,13 +1,6 @@
 //通过createRef获取组件或dom元素
 import React, { Component, createRef } from "react";
-import PropTypes from "prop-types";
 export default class TodoInput extends Component {
-  static propTypes = {
-    btnText: PropTypes.string
-  };
-  static defaultProps = {
-    btnText: "添加待办事项"
-  };
   constructor() {
     super();
     this.state = {

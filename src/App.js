@@ -37,7 +37,7 @@ export default class App extends Component {
     //   })
     // });
 
-    //这种修改方式是对的
+    //第二种方式 这种修改方式是对的
     // this.setState({
     //   todos: this.state.todos.concat({
     //     id: Math.random(),
@@ -58,6 +58,19 @@ export default class App extends Component {
     });
     this.setState({ todos: newTodos });
   };
+  //选择checkbox
+  onCompletedChecked = id => {
+    this.setState(prev => {
+      return {
+        todos: prev.todos.map(todo => {
+          if (todo.id === id) {
+            todo.isCompleted = !todo.isCompleted;
+          }
+          return todo;
+        })
+      };
+    });
+  };
   render() {
     return (
       <Fragment>
@@ -71,7 +84,10 @@ export default class App extends Component {
           <i>{this.state.title}</i>
         </TodoHeader>
         <TodoInput btnText="添加待办事项" addTodo={this.addTodo} />
-        <TodoList todos={this.state.todos} />
+        <TodoList
+          todos={this.state.todos}
+          onCompletedChecked={this.onCompletedChecked}
+        />
         <Like />
       </Fragment>
       // <>
