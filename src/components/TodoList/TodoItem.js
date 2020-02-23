@@ -2,6 +2,12 @@ import React, { Component } from "react";
 
 export default class TodoItem extends Component {
   render() {
-    return <div>TodoItem</div>;
+    return (
+      <li>
+        {this.props.title}-----
+        {this.props.assigned}
+        {this.props.isCompleted ? "已完成" : "未完成"}
+      </li>
+    );
   }
 }
