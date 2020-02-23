@@ -50,7 +50,7 @@ export default class App extends Component {
 
     //复制旧的数组
     // const newTodos = this.state.todos.slice();//复制数组1
-    const newTodos = [...this.state.todos]; //复制数组2
+    const newTodos = [...this.state.todos]; //复制数组21
     newTodos.push({
       id: Math.random(),
       title: todoTitle,
