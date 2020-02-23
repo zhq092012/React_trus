@@ -1,4 +1,5 @@
-import React, { Component } from "react";
+//通过createRef获取组件或dom元素
+import React, { Component, createRef } from "react";
 import PropTypes from "prop-types";
 export default class TodoInput extends Component {
   static propTypes = {
@@ -13,21 +14,32 @@ export default class TodoInput extends Component {
       inputValue: ""
     };
     this.handleAddClick = this.handleAddClick.bind(this);
+    //在constructor中创建ref
+    this.inputDOM = createRef();
   }
   handleInputChange = e => {
-    // console.log(e);
     this.setState({
       inputValue: e.currentTarget.value
     });
   };
-  // handleAddClick = () => {
-  //   console.log(this.state);
-  // };
-  handleAddClick(id) {
-    // console.log(id);
+
+  handleKeyup = e => {
+    if (e.keyCode === 13) this.handleAddClick();
+  };
+  handleAddClick = () => {
+    // 验证输入
+    if (this.state.inputValue === "") return;
 
     this.props.addTodo(this.state.inputValue);
-  }
+    this.setState(
+      {
+        inputValue: ""
+      },
+      () => {
+        this.inputDOM.current.focus();
+      }
+    );
+  };
 
   render() {
     return (
@@ -36,16 +48,19 @@ export default class TodoInput extends Component {
           type="text"
           value={this.state.inputValue}
           onChange={this.handleInputChange}
+          onKeyUp={this.handleKeyup}
+          ref={this.inputDOM}
         ></input>
         <button
           onClick={
             //第一种传参
-            () => {
-              // this.handleAddClick(123);
-              this.handleAddClick();
-            }
+            // ()=>{this.handleAddClick(123);}
+
             //第二种传参
             // this.handleAddClick.bind(this, 123)
+
+            //不传递参数
+            this.handleAddClick
           }
         >
           {this.props.btnText}
