@@ -19,7 +19,7 @@ export default class Like extends Component {
       },
       () => {
         //异步回调
-        console.log(this.state.isLiked);
+        // console.log(this.state.isLiked);
       }
     );
   };

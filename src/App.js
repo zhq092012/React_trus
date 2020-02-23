@@ -1,29 +1,14 @@
 import React, { Component, Fragment } from "react";
 import { TodoHeader, TodoInput, TodoList, Like } from "./components";
+import { getTodos } from "./services";
 export default class App extends Component {
-  // state = {
-  //   title: "待办事项列表1"
-  // };
   constructor() {
     super();
     this.state = {
       title: "待办事项列表1",
       desc: "今日事今日毕",
-      // article: "<div><i>文章标题</i><br/><content>文章内容</content><div>",
-      todos: [
-        {
-          id: 1,
-          title: "吃饭",
-          // assigned: "Leo",
-          isCompleted: true
-        },
-        {
-          id: 2,
-          title: "睡觉",
-          // assigned: "xiao ming",
-          isCompleted: false
-        }
-      ]
+      todos: [],
+      isLoading: false
     };
   }
   //增加，修改状态
@@ -33,7 +18,7 @@ export default class App extends Component {
     //   todos: this.state.todos.push({
     //     id: Math.random(),
     //     title: todoTitle,
-    //     isCompleted: false
+    //     completed: false
     //   })
     // });
 
@@ -42,7 +27,7 @@ export default class App extends Component {
     //   todos: this.state.todos.concat({
     //     id: Math.random(),
     //     title: todoTitle,
-    //     isCompleted: false
+    //     completed: false
     //   })
     // });
 
@@ -54,7 +39,7 @@ export default class App extends Component {
     newTodos.push({
       id: Math.random(),
       title: todoTitle,
-      isCompleted: false
+      completed: false
     });
     this.setState({ todos: newTodos });
   };
@@ -64,13 +49,41 @@ export default class App extends Component {
       return {
         todos: prev.todos.map(todo => {
           if (todo.id === id) {
-            todo.isCompleted = !todo.isCompleted;
+            todo.completed = !todo.completed;
           }
           return todo;
         })
       };
     });
   };
+  getData = () => {
+    this.setState({
+      isLoading: true
+    });
+    getTodos()
+      .then(res => {
+        console.log(res);
+        if (res.status === 200) {
+          this.setState({
+            todos: res.data
+          });
+        } else {
+          //错误处理
+        }
+      })
+      .catch(err => {
+        console.log(err);
+      })
+      .finally(() => {
+        this.setState({
+          isLoading: false
+        });
+      });
+  };
+  componentDidMount() {
+    // console.log(this.http.getTodos);
+    this.getData();
+  }
   render() {
     return (
       <Fragment>
@@ -84,17 +97,16 @@ export default class App extends Component {
           <i>{this.state.title}</i>
         </TodoHeader>
         <TodoInput btnText="添加待办事项" addTodo={this.addTodo} />
-        <TodoList
-          todos={this.state.todos}
-          onCompletedChecked={this.onCompletedChecked}
-        />
+        {this.state.isLoading ? (
+          <div>Loading...</div>
+        ) : (
+          <TodoList
+            todos={this.state.todos}
+            onCompletedChecked={this.onCompletedChecked}
+          />
+        )}
         <Like />
       </Fragment>
-      // <>
-      //   <TodoHeader />
-      //   <TodoInput />
-      //   <TodoList />
-      // </>
     );
   }
 }

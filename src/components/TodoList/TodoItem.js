@@ -9,7 +9,7 @@ export default class TodoItem extends Component {
   // }
   // static getDrivedStateFromProps(props) {
   //   return {
-  //     completedText: props.isCompleted ? "完成" : "未完成"
+  //     completedText: props.completed ? "完成" : "未完成"
   //   };
   // }
   handleCheckboxChange = () => {
@@ -18,24 +18,24 @@ export default class TodoItem extends Component {
     const { onCompletedChecked = noop, id } = this.props; //解构this.props
     onCompletedChecked && onCompletedChecked(id);
   };
-  //解决重复render
+  //解决重复render()********优化
   shouldComponentUpdate(nextProps, nextState) {
-    return nextProps.isCompleted !== this.props.isCompleted;
+    return nextProps.completed !== this.props.completed;
   }
   render() {
     console.log(`TodoItem${this.props.title}Render`);
 
-    const { isCompleted, title } = this.props; //解构this.props
+    const { completed, title } = this.props; //解构this.props
     return (
       <li>
         <input
           type="checkbox"
-          checked={isCompleted}
+          checked={completed}
           onChange={this.handleCheckboxChange}
         ></input>
         <span>
           {title}--
-          {isCompleted ? "已完成" : "未完成"}
+          {completed ? "已完成" : "未完成"}
         </span>
       </li>
     );
