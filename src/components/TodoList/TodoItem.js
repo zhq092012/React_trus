@@ -5,7 +5,7 @@ export default class TodoItem extends Component {
     return (
       <li>
         {this.props.title}-----
-        {this.props.assigned}
+        {/* {this.props.assigned} */}
         {this.props.isCompleted ? "已完成" : "未完成"}
       </li>
     );
