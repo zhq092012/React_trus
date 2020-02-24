@@ -1,13 +1,12 @@
 import React, { Component } from "react";
-import { Counter, CountBtn } from "./components";
-export default class App extends Component {
+import AnotherCopy from "./AnotherCopy";
+class App extends Component {
   render() {
     return (
-      <>
-        <CountBtn type="decrement">-</CountBtn>
-        <Counter></Counter>
-        <CountBtn type="increment">+</CountBtn>
-      </>
+      <div>
+        App <AnotherCopy name="组件" />
+      </div>
     );
   }
 }
+export default App;
