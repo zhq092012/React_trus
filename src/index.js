@@ -1,32 +1,80 @@
-import React, { useState, useEffect } from "react";
+import React, { Component, createContext } from "react";
 import { render } from "react-dom";
 
-const Counter = () => {
-  const [count, setCount] = useState(0);
-  //监控更新
-  useEffect(() => {
-    console.log("更新了");
-    document.title=`当前数量为${count}`
-  });
-  return (
-    <div>
-      <p>当前数量为{count}</p>
-      <button
-        onClick={() => {
-          setCount(count - 1);
+const { Provider, Consumer: CounterConsumer } = createContext();
+
+class CounterProvider extends Component {
+  constructor() {
+    super();
+    this.state = {
+      count: 100
+    };
+  }
+  incrementCount = () => {
+    this.setState({
+      count: this.state.count + 1
+    });
+  };
+  decrementCount = () => {
+    this.setState({
+      count: this.state.count - 1
+    });
+  };
+  render() {
+    return (
+      <Provider
+        value={{
+          count: this.state.count,
+          onIncrementCount: this.incrementCount,
+          onDecrementCount: this.decrementCount
         }}
       >
-        -
-      </button>
-      <span>{count}</span>
-      <button
-        onClick={() => {
-          setCount(count + 1);
+        {this.props.children}
+      </Provider>
+    );
+  }
+}
+
+class Counter extends Component {
+  render() {
+    return (
+      <CounterConsumer>
+        {({ count }) => {
+          return <span>{count}</span>;
         }}
-      >
-        +
-      </button>
-    </div>
-  );
-};
-render(<Counter />, document.getElementById("root"));
+      </CounterConsumer>
+    );
+  }
+}
+class CountBtn extends Component {
+  render() {
+    return (
+      <CounterConsumer>
+        {({ onIncrementCount, onDecrementCount }) => {
+          let handle =
+            this.props.type === "increment"
+              ? onIncrementCount
+              : onDecrementCount;
+          return <button onClick={handle}>{this.props.children}</button>;
+        }}
+      </CounterConsumer>
+    );
+  }
+}
+class App extends Component {
+  render() {
+    return (
+      <>
+        <CountBtn type="decrement">-</CountBtn>
+        <Counter></Counter>
+        <CountBtn type="increment">+</CountBtn>
+      </>
+    );
+  }
+}
+render(
+  <CounterProvider>
+    <App />
+  </CounterProvider>,
+  document.getElementById("root")
+);
