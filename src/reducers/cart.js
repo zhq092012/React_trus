@@ -1,5 +1,4 @@
 import actionType from "../actions/actionType";
-import store from "../store";
 const initState = [
   {
     id: 1,
