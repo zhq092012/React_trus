@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { increment, decrement } from "../../actions/cart";
+import { increment, decrement, decrementAsync } from "../../actions/cart";
 class CartList extends Component {
   render() {
     return (
@@ -22,6 +22,11 @@ class CartList extends Component {
                 <td>{item.title}</td>
                 <td>{item.price}</td>
                 <td>
+                  <button
+                    onClick={this.props.decrementAsync.bind(this, item.id)}
+                  >
+                    等一会再减
+                  </button>
                   <button onClick={this.props.decrement.bind(this, item.id)}>
                     -
                   </button>
@@ -51,4 +56,6 @@ const mapState = state => {
 //   };
 // };
 // export default connect(mapState, mapDispatch)(CartList);
-export default connect(mapState, { increment, decrement })(CartList);
+export default connect(mapState, { increment, decrement, decrementAsync })(
+  CartList
+);

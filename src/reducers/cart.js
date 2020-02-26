@@ -29,6 +29,14 @@ export default (state = initState, action) => {
         }
         return item;
       });
+    case actionType.CART_AMOUNT_DECREMENTASYNC:
+      return state.map(item => {
+        if (item.id === action.payload.id) {
+          item.amount -= 1;
+        }
+        return item;
+      });
+
     default:
       return state;
   }
