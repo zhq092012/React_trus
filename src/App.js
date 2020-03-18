@@ -1,7 +1,17 @@
 import React, { Component } from 'react'
-
-export default class App extends Component {
+import { CounterBtn, CounterDisplay } from './components'
+import { increment, decrement } from './actions/counter'
+import { connect } from 'react-redux'
+@connect(null, { increment, decrement })
+class App extends Component {
   render() {
-    return <div>App</div>
+    return (
+      <>
+        <CounterBtn onClick={this.props.decrement}>-</CounterBtn>
+        <CounterDisplay />
+        <CounterBtn onClick={this.props.increment}>+</CounterBtn>
+      </>
+    )
   }
 }
+export default App
