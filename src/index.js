@@ -30,8 +30,12 @@ const imState = fromJS(state)
 console.log(imState.get('courses').get(0))
 console.log(imState.getIn(['courses', 0]))
 console.log(imState.getIn(['obj', 'y', 'z']))
+
 const newImState = imState.setIn(['obj', 'y', 'z'], 100)
 console.log(newImState.getIn(['obj', 'y', 'z']))
-console.log(imState.toJS().obj.y.z)
+console.log(newImState.toJS().obj.y.z) //等价于newImState.getIn(['obj', 'y', 'z'])
+
+const newImState1 = imState.updateIn(['obj', 'y', 'z'], v => v + 1)
+console.log(newImState1.getIn(['obj', 'y', 'z']))
 
 render(<App />, document.getElementById('root'))
